@@ -1,0 +1,9 @@
+{
+  "exa": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@exa-ai/mcp-server"
+    ]
+  }
+}

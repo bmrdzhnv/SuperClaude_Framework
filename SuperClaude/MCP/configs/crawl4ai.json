@@ -1,0 +1,9 @@
+{
+  "crawl4ai": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "crawl4ai-mcp-server"
+    ]
+  }
+}
