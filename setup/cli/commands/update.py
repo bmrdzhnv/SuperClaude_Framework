@@ -6,6 +6,7 @@ Refactored from update.py for unified CLI hub
 import sys
 import time
 from pathlib import Path
+from ...utils.paths import get_home_directory
 from typing import List, Optional, Dict, Any
 import argparse
 
@@ -197,7 +198,7 @@ def collect_api_keys_for_servers(selected_servers: List[str], mcp_instance) -> D
         return {}
     
     # Display API key configuration header
-    print(f"\n{Colors.CYAN}{Colors.BRIGHT}═══ API Key Configuration ═══{Colors.RESET}")
+    print(f"\n{Colors.CYAN}{Colors.BRIGHT}=== API Key Configuration ==={Colors.RESET}")
     print(f"{Colors.YELLOW}New MCP servers require API keys for full functionality:{Colors.RESET}\n")
     
     collected_keys = {}
@@ -384,11 +385,11 @@ def run(args: argparse.Namespace) -> int:
     from setup.cli.base import __version__
 
     # ✅ Inserted validation code
-    expected_home = Path.home().resolve()
+    expected_home = get_home_directory().resolve()
     actual_dir = args.install_dir.resolve()
 
     if not str(actual_dir).startswith(str(expected_home)):
-        print(f"\n[✗] Installation must be inside your user profile directory.")
+        print(f"\n[x] Installation must be inside your user profile directory.")
         print(f"    Expected prefix: {expected_home}")
         print(f"    Provided path:   {actual_dir}")
         sys.exit(1)

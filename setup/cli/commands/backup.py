@@ -8,6 +8,7 @@ import time
 import tarfile
 import json
 from pathlib import Path
+from ...utils.paths import get_home_directory
 from datetime import datetime
 from typing import List, Optional, Dict, Any, Tuple
 import argparse
@@ -494,11 +495,11 @@ def run(args: argparse.Namespace) -> int:
     operation.setup_operation_logging(args)
     logger = get_logger()
     # ✅ Inserted validation code
-    expected_home = Path.home().resolve()
+    expected_home = get_home_directory().resolve()
     actual_dir = args.install_dir.resolve()
 
     if not str(actual_dir).startswith(str(expected_home)):
-        print(f"\n[✗] Installation must be inside your user profile directory.")
+        print(f"\n[x] Installation must be inside your user profile directory.")
         print(f"    Expected prefix: {expected_home}")
         print(f"    Provided path:   {actual_dir}")
         sys.exit(1)

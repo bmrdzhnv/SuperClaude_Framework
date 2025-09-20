@@ -6,6 +6,7 @@ Refactored from install.py for unified CLI hub
 import sys
 import time
 from pathlib import Path
+from ...utils.paths import get_home_directory
 from typing import List, Optional, Dict, Any
 import argparse
 
@@ -125,16 +126,28 @@ def get_components_to_install(args: argparse.Namespace, registry: ComponentRegis
         else:
             components = args.components
 
-        # If mcp is specified non-interactively, we should still ask which servers to install.
-        if 'mcp' in components:
+        # If mcp or mcp_docs is specified non-interactively, we should still ask which servers to install.
+        if 'mcp' in components or 'mcp_docs' in components:
             selected_servers = select_mcp_servers(registry)
             if not hasattr(config_manager, '_installation_context'):
                 config_manager._installation_context = {}
             config_manager._installation_context["selected_mcp_servers"] = selected_servers
 
-            # If the user selected some servers, but didn't select mcp_docs, add it.
-            if selected_servers and 'mcp_docs' not in components:
-                components.append('mcp_docs')
+            # If the user selected some servers, ensure both mcp and mcp_docs are included
+            if selected_servers:
+                if 'mcp' not in components:
+                    components.append('mcp')
+                    logger.debug(f"Auto-added 'mcp' component for selected servers: {selected_servers}")
+                if 'mcp_docs' not in components:
+                    components.append('mcp_docs')
+                    logger.debug(f"Auto-added 'mcp_docs' component for selected servers: {selected_servers}")
+
+                logger.info(f"Final components to install: {components}")
+
+            # If mcp_docs was explicitly requested but no servers selected, allow auto-detection
+            elif not selected_servers and 'mcp_docs' in components:
+                logger.info("mcp_docs component will auto-detect existing MCP servers")
+                logger.info("Documentation will be installed for any detected servers")
 
         return components
     
@@ -165,7 +178,7 @@ def collect_api_keys_for_servers(selected_servers: List[str], mcp_instance) -> D
         return {}
     
     # Display API key configuration header
-    print(f"\n{Colors.CYAN}{Colors.BRIGHT}═══ API Key Configuration ═══{Colors.RESET}")
+    print(f"\n{Colors.CYAN}{Colors.BRIGHT}=== API Key Configuration ==={Colors.RESET}")
     print(f"{Colors.YELLOW}The following servers require API keys for full functionality:{Colors.RESET}\n")
     
     collected_keys = {}
@@ -187,7 +200,7 @@ def select_mcp_servers(registry: ComponentRegistry) -> List[str]:
     
     try:
         # Get MCP component to access server list
-        mcp_instance = registry.get_component_instance("mcp", Path.home() / ".claude")
+        mcp_instance = registry.get_component_instance("mcp", get_home_directory() / ".claude")
         if not mcp_instance or not hasattr(mcp_instance, 'mcp_servers'):
             logger.error("Could not access MCP server information")
             return []
@@ -201,9 +214,9 @@ def select_mcp_servers(registry: ComponentRegistry) -> List[str]:
             api_key_note = " (requires API key)" if server_info.get("requires_api_key", False) else ""
             server_options.append(f"{server_key} - {description}{api_key_note}")
         
-        print(f"\n{Colors.CYAN}{Colors.BRIGHT}═══════════════════════════════════════════════════{Colors.RESET}")
+        print(f"\n{Colors.CYAN}{Colors.BRIGHT}{'='*51}{Colors.RESET}")
         print(f"{Colors.CYAN}{Colors.BRIGHT}Stage 1: MCP Server Selection (Optional){Colors.RESET}")
-        print(f"{Colors.CYAN}{Colors.BRIGHT}═══════════════════════════════════════════════════{Colors.RESET}")
+        print(f"{Colors.CYAN}{Colors.BRIGHT}{'='*51}{Colors.RESET}")
         print(f"\n{Colors.BLUE}MCP servers extend Claude Code with specialized capabilities.{Colors.RESET}")
         print(f"{Colors.BLUE}Select servers to configure (you can always add more later):{Colors.RESET}")
         
@@ -275,9 +288,9 @@ def select_framework_components(registry: ComponentRegistry, config_manager: Con
             component_options.append("mcp_docs - MCP server documentation (none selected)")
             auto_selected_mcp_docs = False
         
-        print(f"\n{Colors.CYAN}{Colors.BRIGHT}═══════════════════════════════════════════════════{Colors.RESET}")
+        print(f"\n{Colors.CYAN}{Colors.BRIGHT}{'='*51}{Colors.RESET}")
         print(f"{Colors.CYAN}{Colors.BRIGHT}Stage 2: Framework Component Selection{Colors.RESET}")
-        print(f"{Colors.CYAN}{Colors.BRIGHT}═══════════════════════════════════════════════════{Colors.RESET}")
+        print(f"{Colors.CYAN}{Colors.BRIGHT}{'='*51}{Colors.RESET}")
         print(f"\n{Colors.BLUE}Select SuperClaude framework components to install:{Colors.RESET}")
         
         menu = Menu("Select components (Core is recommended):", component_options, multi_select=True)
@@ -526,7 +539,7 @@ def run(args: argparse.Namespace) -> int:
     operation.setup_operation_logging(args)
     logger = get_logger()
     # ✅ Enhanced security validation with symlink protection
-    expected_home = Path.home().resolve()
+    expected_home = get_home_directory().resolve()
     install_dir_original = args.install_dir
     install_dir_resolved = args.install_dir.resolve()
 
@@ -553,13 +566,13 @@ def run(args: argparse.Namespace) -> int:
                         # Ensure symlink target is also within user home
                         symlink_target.relative_to(expected_home)
     except ValueError:
-        print(f"\n[✗] Installation must be inside your user profile directory.")
+        print(f"\n[x] Installation must be inside your user profile directory.")
         print(f"    Expected prefix: {expected_home}")
         print(f"    Provided path:   {install_dir_resolved}")
         print(f"    Security: Symlinks outside user directory are not allowed.")
         sys.exit(1)
     except Exception as e:
-        print(f"\n[✗] Security validation failed: {e}")
+        print(f"\n[x] Security validation failed: {e}")
         print(f"    Please use a standard directory path within your user profile.")
         sys.exit(1)
     
