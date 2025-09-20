@@ -17,7 +17,7 @@
 - **Not for simple lookup**: Basic factual queries, dictionary definitions
 
 ## Works Best With
-- **crawl4ai**: Exa discovers sources → crawl4ai extracts and processes content
+- **crawl4ai**: Exa discovers sources → walksoda/crawl-mcp extracts with AI analysis and 88.5% token reduction
 - **Sequential**: Exa provides research strategy → Sequential coordinates multi-source analysis
 - **Serena**: Exa research results → Serena stores for cross-session knowledge building
 

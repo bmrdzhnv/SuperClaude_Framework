@@ -1,9 +1,13 @@
 {
   "crawl4ai": {
-    "command": "npx",
+    "command": "uvx",
     "args": [
-      "-y",
-      "crawl4ai-mcp-server"
-    ]
+      "--from",
+      "git+https://github.com/walksoda/crawl-mcp",
+      "crawl-mcp"
+    ],
+    "env": {
+      "CRAWL4AI_LANG": "en"
+    }
   }
 }
