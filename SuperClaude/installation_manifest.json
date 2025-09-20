@@ -1,0 +1,126 @@
+{
+  "version": "4.2.0",
+  "components": {
+    "commands": {
+      "path": "Commands",
+      "files": ["*.md"],
+      "destination": "~/.claude/commands/sc/",
+      "includes_new": ["plan.md"]
+    },
+    "custom_commands": {
+      "path": "CustomCommands",
+      "files": ["*.md"],
+      "destination": "~/.claude/commands/",
+      "includes_new": ["execute_plan.md"]
+    },
+    "agents": {
+      "path": "Agents",
+      "files": ["*.md"],
+      "destination": "~/.claude/agents/",
+      "includes_new": ["computational-strategist.md", "superclaude-framework.md"]
+    },
+    "modes": {
+      "path": "Modes",
+      "files": ["*.md"],
+      "destination": "~/.claude/",
+      "prefix": "MODE_"
+    },
+    "mcp": {
+      "path": "MCP",
+      "files": ["*.md"],
+      "destination": "~/.claude/",
+      "prefix": "MCP_",
+      "includes_new": ["MCP_Crawl4ai.md", "MCP_Exa.md"]
+    },
+    "mcp_configs": {
+      "path": "MCP/configs",
+      "files": ["*.json"],
+      "destination": "~/.claude/mcp/configs/",
+      "includes_new": ["crawl4ai.json", "exa.json"]
+    },
+    "hooks": {
+      "path": "Hooks",
+      "files": ["*.py"],
+      "destination": "~/.claude/hooks/",
+      "includes_new": ["plan_monitor.py"],
+      "recursive": true
+    },
+    "scripts": {
+      "path": "Scripts",
+      "files": ["*.py"],
+      "destination": "~/.claude/scripts/",
+      "includes_new": ["plan_executor.py"],
+      "make_executable": true
+    },
+    "plans": {
+      "path": "Plans",
+      "files": ["*.json"],
+      "destination": "~/.claude/plans/",
+      "includes_new": ["sample_auth_plan.json"]
+    },
+    "core": {
+      "path": "Core",
+      "files": ["*.md", "*.json"],
+      "destination": "~/.claude/",
+      "includes_new": ["plan_schema.json"]
+    },
+    "settings": {
+      "path": "Settings",
+      "files": ["settings.json"],
+      "destination": "~/.claude/",
+      "merge_strategy": "smart",
+      "backup_existing": true
+    }
+  },
+  "installation_order": [
+    "core",
+    "modes",
+    "mcp",
+    "mcp_configs",
+    "agents",
+    "commands",
+    "custom_commands",
+    "hooks",
+    "scripts",
+    "plans",
+    "settings"
+  ],
+  "post_install": {
+    "create_directories": [
+      "~/.claude/plans",
+      "~/.claude/scripts",
+      "~/.claude/logs"
+    ],
+    "set_permissions": {
+      "~/.claude/hooks/*.py": "755",
+      "~/.claude/scripts/*.py": "755"
+    },
+    "update_claude_md": {
+      "add_imports": [
+        "@MCP_Crawl4ai.md",
+        "@MCP_Exa.md"
+      ]
+    }
+  },
+  "dependencies": {
+    "python_packages": [
+      "jsonschema",
+      "pydantic"
+    ],
+    "system_requirements": {
+      "python": ">=3.8",
+      "uv": "optional"
+    }
+  },
+  "meta": {
+    "description": "SuperClaude Framework with Plan System and Meta-Agents",
+    "added_features": [
+      "/sc:plan command for executable workflow generation",
+      "computational-strategist agent for optimal path finding",
+      "superclaude-framework agent for orchestration",
+      "Plan execution infrastructure with hooks and monitoring",
+      "Enhanced research command with Exa and Crawl4ai integration",
+      "Comprehensive hook system for automation"
+    ]
+  }
+}

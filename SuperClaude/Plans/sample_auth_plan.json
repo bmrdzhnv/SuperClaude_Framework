@@ -1,0 +1,111 @@
+{
+  "plan_id": "sample_auth_2024",
+  "goal": "Build secure React authentication system",
+  "complexity": 0.7,
+  "metadata": {
+    "created_at": "2024-01-20T23:50:00Z",
+    "estimated_time": 1800,
+    "tags": ["auth", "react", "security", "sample"]
+  },
+  "steps": [
+    {
+      "id": 1,
+      "description": "Research authentication patterns",
+      "command": "/sc:research",
+      "args": "React authentication NextAuth JWT best practices",
+      "agents": ["security-engineer"],
+      "validation": "documentation_stored",
+      "timeout": 300
+    },
+    {
+      "id": 2,
+      "description": "Analyze existing codebase",
+      "command": "/sc:analyze",
+      "args": "src/ --focus security",
+      "agents": ["security-engineer", "backend-architect"],
+      "depends_on": [1],
+      "validation": "analysis_complete"
+    },
+    {
+      "id": 3,
+      "description": "Design authentication architecture",
+      "command": "/sc:design",
+      "args": "auth-system --components middleware,providers,hooks",
+      "agents": ["backend-architect", "frontend-architect"],
+      "depends_on": [2],
+      "flags": ["--validated"],
+      "validation": "design_approved"
+    },
+    {
+      "id": 4,
+      "description": "Implement authentication components",
+      "command": "/sc:implement",
+      "args": "auth-components",
+      "agents": ["frontend-architect"],
+      "depends_on": [3],
+      "validation": "components_created"
+    },
+    {
+      "id": 5,
+      "description": "Implement backend middleware",
+      "command": "/sc:implement",
+      "args": "auth-middleware",
+      "agents": ["backend-architect"],
+      "depends_on": [3],
+      "validation": "middleware_functional"
+    },
+    {
+      "id": 6,
+      "description": "Create test suite",
+      "command": "/sc:test",
+      "args": "auth-system --comprehensive",
+      "agents": ["quality-engineer"],
+      "depends_on": [4, 5],
+      "validation": "tests_pass",
+      "retry": {
+        "max_attempts": 3,
+        "delay": 5
+      }
+    },
+    {
+      "id": 7,
+      "description": "Security audit",
+      "command": "/sc:analyze",
+      "args": "src/auth --security-audit",
+      "agents": ["security-engineer"],
+      "depends_on": [6],
+      "validation": "no_vulnerabilities"
+    },
+    {
+      "id": 8,
+      "description": "Generate documentation",
+      "command": "/sc:document",
+      "args": "auth-system --api-docs --user-guide",
+      "agents": ["technical-writer"],
+      "depends_on": [7],
+      "validation": "docs_complete"
+    }
+  ],
+  "parallel_groups": [
+    {
+      "group_id": "implementation",
+      "steps": [4, 5]
+    }
+  ],
+  "rollback": [
+    "git reset --hard HEAD~1",
+    "rm -rf src/auth",
+    "rm -rf tests/auth",
+    "npm run cleanup:auth"
+  ],
+  "success_criteria": {
+    "required_steps": [3, 4, 5, 6, 7],
+    "min_success_rate": 90,
+    "validation_command": "npm run test:auth && npm run audit:security"
+  },
+  "variables": {
+    "AUTH_PROVIDER": "NextAuth",
+    "TOKEN_TYPE": "JWT",
+    "SESSION_STRATEGY": "jwt"
+  }
+}
