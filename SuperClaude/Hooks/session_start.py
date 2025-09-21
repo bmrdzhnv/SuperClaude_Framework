@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
@@ -13,6 +13,15 @@ import sys
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
+# Import asdf auto-fix utility
+sys.path.insert(0, str(Path(__file__).parent / "utils"))
+try:
+    from asdf_auto_fix import run_with_asdf_fix
+except ImportError:
+    # Fallback if asdf_auto_fix not available
+    def run_with_asdf_fix(command, **kwargs):
+        return subprocess.run(command, capture_output=True, text=True)
 
 try:
     from dotenv import load_dotenv
@@ -190,10 +199,8 @@ def main():
                     }
                     message = messages.get(source, "Session started")
                     
-                    subprocess.run(
-                        ["uv", "run", str(tts_script), message],
-                        capture_output=True,
-                        timeout=5
+                    run_with_asdf_fix(
+                        ["uv", "run", str(tts_script), message]
                     )
             except Exception:
                 pass

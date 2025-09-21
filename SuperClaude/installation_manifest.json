@@ -48,14 +48,14 @@
       "path": "Hooks",
       "files": ["*.py"],
       "destination": "~/.claude/hooks/",
-      "includes_new": ["plan_monitor.py", "utils/llm/anth.py", "utils/tts/elevenlabs_tts.py", "utils/llm/oai.py", "utils/llm/ollama.py", "utils/tts/openai_tts.py", "utils/tts/pyttsx3_tts.py"],
+      "includes_new": ["plan_monitor.py", "utils/llm/anth.py", "utils/tts/elevenlabs_tts.py", "utils/llm/oai.py", "utils/llm/ollama.py", "utils/tts/openai_tts.py", "utils/tts/pyttsx3_tts.py", "utils/asdf_auto_fix.py"],
       "recursive": true
     },
     "scripts": {
       "path": "Scripts",
       "files": ["*.py", "*.sh"],
       "destination": "~/.claude/scripts/",
-      "includes_new": ["plan_executor.py", "fork_updater.sh"],
+      "includes_new": ["plan_executor.py", "fork_updater.sh", "asdf_hook_runner.py"],
       "make_executable": true
     },
     "plans": {
