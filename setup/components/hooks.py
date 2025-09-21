@@ -18,12 +18,6 @@ class HooksComponent(Component):
         super().__init__(install_dir)
         # Override component files to include all hook files
         self.component_files = [
-            "anth.py",
-            "elevenlabs_tts.py",
-            "oai.py",
-            "ollama.py",
-            "openai_tts.py",
-            "pyttsx3_tts.py",
             "post_tool_use.py",
             "notification.py",
             "stop.py",

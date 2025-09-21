@@ -1,0 +1,76 @@
+{
+  "plan_id": "security_audit_compiled",
+  "goal": "Audit auth.js for security vulnerabilities",
+  "compilation_version": "2.0",
+  "metadata": {
+    "original_request": "Use computational-strategist and security-engineer to audit",
+    "compiled_by": "plan_compiler_v2",
+    "compilation_strategy": "agent_expansion"
+  },
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "Locate authentication files",
+      "type": "atomic_tool",
+      "tool": "Glob",
+      "params": {
+        "pattern": "**/auth*.js"
+      },
+      "store_as": "auth_files"
+    },
+    {
+      "step_id": "2",
+      "description": "Read authentication implementation",
+      "type": "atomic_tool",
+      "tool": "Read",
+      "params": {
+        "file_path": "{{auth_files[0]}}"
+      },
+      "store_as": "auth_content"
+    },
+    {
+      "step_id": "3",
+      "description": "Analyze with computational thinking",
+      "type": "mcp_call",
+      "mcp_server": "sequential-thinking",
+      "function": "sequentialthinking",
+      "params": {
+        "thought": "Analyze this authentication code for vulnerabilities: {{auth_content}}",
+        "thoughtNumber": 1,
+        "totalThoughts": 5
+      },
+      "store_as": "security_analysis"
+    },
+    {
+      "step_id": "4",
+      "description": "Check for common vulnerabilities",
+      "type": "atomic_tool",
+      "tool": "Grep",
+      "params": {
+        "pattern": "(password|token|secret|api_key)\\s*=\\s*[\"']",
+        "path": "{{auth_files[0]}}"
+      },
+      "store_as": "hardcoded_secrets"
+    },
+    {
+      "step_id": "5",
+      "description": "Generate security report",
+      "type": "think",
+      "prompt": "Based on analysis: {{security_analysis}} and found issues: {{hardcoded_secrets}}, generate security recommendations",
+      "store_as": "recommendations"
+    },
+    {
+      "step_id": "6",
+      "description": "Write security audit report",
+      "type": "atomic_tool",
+      "tool": "Write",
+      "params": {
+        "file_path": "/Users/bm/Projects/GitHub/Sources/SuperClaude_Framework/security_audit.md",
+        "content": "# Security Audit Report\n\n{{recommendations}}"
+      }
+    }
+  ],
+  "rollback": [
+    "rm -f security_audit.md"
+  ]
+}
