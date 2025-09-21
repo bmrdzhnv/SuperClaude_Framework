@@ -1,6 +1,12 @@
 {
-  "version": "4.2.0",
+  "version": "4.2.1",
   "components": {
+    "status_lines": {
+      "path": "StatusLines",
+      "files": ["*.py"],
+      "destination": "~/.claude/status_lines/",
+      "make_executable": true
+    },
     "commands": {
       "path": "Commands",
       "files": ["*.md"],
@@ -83,6 +89,7 @@
     "hooks",
     "scripts",
     "plans",
+    "status_lines",
     "settings"
   ],
   "post_install": {

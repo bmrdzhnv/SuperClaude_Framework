@@ -17,6 +17,11 @@
     ],
     "deny": []
   },
+  "statusLine": {
+    "type": "command",
+    "command": "uv run ~/.claude/status_lines/status_line.py",
+    "padding": 0
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -116,11 +121,6 @@
         ]
       }
     ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "input=$(cat); printf '%s %s%s' \"$(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\" \"$(cd \"$(echo \"$input\" | jq -r '.workspace.current_dir')\" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null | sed 's/.*/(& /' || echo '')\" \"$(echo \"$input\" | jq -r '.model.display_name' | sed 's/.*/[&]/')\"",
-    "padding": 0
   },
   "model": "opusplan"
 }
