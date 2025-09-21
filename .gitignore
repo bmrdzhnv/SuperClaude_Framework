@@ -199,3 +199,10 @@ TODO.txt
 # Development artifacts (should not be in repo)
 package-lock.json
 uv.lock
+
+# Locally generated documentation files
+.tool-versions
+CHANGELOG_v4.2.0.md
+COMPONENT_MAP.md
+CROSS_REFERENCE.md
+PROJECT_INDEX.md
