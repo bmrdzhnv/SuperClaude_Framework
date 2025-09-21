@@ -5,7 +5,7 @@
       "path": "Commands",
       "files": ["*.md"],
       "destination": "~/.claude/commands/sc/",
-      "includes_new": ["plan.md"]
+      "includes_new": ["plan.md", "update-superclaude-fork.md"]
     },
     "custom_commands": {
       "path": "CustomCommands",
@@ -47,9 +47,9 @@
     },
     "scripts": {
       "path": "Scripts",
-      "files": ["*.py"],
+      "files": ["*.py", "*.sh"],
       "destination": "~/.claude/scripts/",
-      "includes_new": ["plan_executor.py"],
+      "includes_new": ["plan_executor.py", "fork_updater.sh"],
       "make_executable": true
     },
     "plans": {
