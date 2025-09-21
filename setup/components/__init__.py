@@ -6,12 +6,16 @@ from .mcp import MCPComponent
 from .agents import AgentsComponent
 from .modes import ModesComponent
 from .mcp_docs import MCPDocsComponent
+from .hooks import HooksComponent
+from .settings import SettingsComponent
 
 __all__ = [
     'CoreComponent',
-    'CommandsComponent', 
+    'CommandsComponent',
     'MCPComponent',
     'AgentsComponent',
     'ModesComponent',
-    'MCPDocsComponent'
+    'MCPDocsComponent',
+    'HooksComponent',
+    'SettingsComponent'
 ]

@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/pre_tool_use.py"
+            "command": "uv run ~/.claude/hooks/pre_tool_use.py"
           }
         ]
       }
@@ -35,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/post_tool_use.py"
+            "command": "uv run ~/.claude/hooks/post_tool_use.py"
           }
         ]
       }
@@ -46,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/notification.py --notify"
+            "command": "uv run ~/.claude/hooks/notification.py --notify"
           }
         ]
       }
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/stop.py --chat"
+            "command": "uv run ~/.claude/hooks/stop.py --chat"
           }
         ]
       }
@@ -68,7 +68,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/subagent_stop.py --notify"
+            "command": "uv run ~/.claude/hooks/subagent_stop.py --notify"
           }
         ]
       }
@@ -78,7 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/user_prompt_submit.py --log-only --store-last-prompt --name-agent"
+            "command": "uv run ~/.claude/hooks/user_prompt_submit.py --log-only --store-last-prompt --name-agent"
           }
         ]
       }
@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/pre_compact.py"
+            "command": "uv run ~/.claude/hooks/pre_compact.py"
           }
         ]
       }
@@ -100,7 +100,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/session_start.py"
+            "command": "uv run ~/.claude/hooks/session_start.py"
           }
         ]
       }
@@ -111,7 +111,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/plan_monitor.py"
+            "command": "uv run ~/.claude/hooks/plan_monitor.py"
           }
         ]
       }
@@ -121,5 +121,6 @@
     "type": "command",
     "command": "input=$(cat); printf '%s %s%s' \"$(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\" \"$(cd \"$(echo \"$input\" | jq -r '.workspace.current_dir')\" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null | sed 's/.*/(& /' || echo '')\" \"$(echo \"$input\" | jq -r '.model.display_name' | sed 's/.*/[&]/')\"",
     "padding": 0
-  }
+  },
+  "model": "opusplan"
 }

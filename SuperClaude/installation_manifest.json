@@ -42,7 +42,7 @@
       "path": "Hooks",
       "files": ["*.py"],
       "destination": "~/.claude/hooks/",
-      "includes_new": ["plan_monitor.py"],
+      "includes_new": ["plan_monitor.py", "anth.py", "elevenlabs_tts.py", "oai.py", "ollama.py", "openai_tts.py", "pyttsx3_tts.py"],
       "recursive": true
     },
     "scripts": {

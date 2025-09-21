@@ -122,7 +122,7 @@ def get_components_to_install(args: argparse.Namespace, registry: ComponentRegis
     # Explicit components specified
     if args.components:
         if 'all' in args.components:
-            components = ["core", "commands", "agents", "modes", "mcp", "mcp_docs"]
+            components = ["core", "commands", "agents", "modes", "mcp", "mcp_docs", "hooks", "settings"]
         else:
             components = args.components
 
@@ -266,7 +266,7 @@ def select_framework_components(registry: ComponentRegistry, config_manager: Con
     
     try:
         # Framework components (excluding MCP-related ones)
-        framework_components = ["core", "modes", "commands", "agents"]
+        framework_components = ["core", "modes", "commands", "agents", "hooks", "settings"]
         
         # Create component menu
         component_options = []
